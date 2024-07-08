@@ -1,0 +1,984 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <section id="translator">
+
+    <div aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ lista_cotejo_object.name }}</li>
+      </ol>
+    </div>
+
+      <div class="container">
+          <div class="row">
+              <div class="col-md-6 mb-5 mb-md-0">							
+                  <!-- Card -->
+                  <div class="card card-form">
+                    <div class="card-header">
+                        <h3 class="card-title">Reporte</h3>
+                      </div>
+                        <div class="card-body"> 
+                  <!-- Form -->
+                        <form id="resolutionForm" method="POST">
+                          <input type="hidden" name="lista_cotejo_name" value="{{ lista_cotejo_object.name }}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="fecha">Elija la plantilla</label>
+                                {{ form.resolucion }}
+                            </div>
+
+                              <div class="mb-3">
+                                  <label for="fecha">Fecha: Emision de resolucion</label>
+                                  {{ form.fecha_actual }}
+                              </div>
+  
+                              <div class="mb-3">
+                                  <label for="expediente">Nro Resolucion</label>
+                                  {{ form.expediente }}
+                              </div>
+      
+                        <div class="card mb-3 card-interno">
+                            <div class="card-header-report">
+                                <h3 class="card-title">Dirección Establecimiento</h3>
+                              </div>
+                            <div class="mb-3">
+                                <label for="nombre_establecimiento">Nombre Establecimiento</label>
+                                {{ form.nombre_establecimiento }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="giro">Giro o Actividad</label>
+                                {{ form.giro }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="direccion">Dirección Completa</label>
+                                {{ form.direccion }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="codigo_postal">Código Postal</label>
+                                {{ form.codigo_postal }}
+                            </div>
+                        </div>
+                        <div class="card mb-3 card-interno">
+                            <div class="card-header-resolucion">
+                                <h3 class="card-title mb-3">Datos de Resolución</h3>
+                              </div>
+                            <div class="mb-5">
+                                <label for="fecha_orden_visita">Fecha: Expedicion Orden de Verificación</label>
+                                {{ form.fecha_orden_visita }}
+                            </div>
+
+                            <div class="mb-3 tipo-orden-div">
+                              <label for="numero_orden_verificacion">Nro Orden de Verificación</label>
+                              <br>
+                              <label for="tipo_orden">La orden es de:</label>
+                              {% for value, name in form.fields.tipo_orden.choices %}
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" id="{{ value }}" name="tipo_orden" value="{{ value }}" class="custom-control-input">
+                                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+
+                            <div class="hideable-cabosca-form">
+                              <div class="mb-3">
+                                  <div class="row">
+                                    <div class="col-6 mb-3 cabosca">
+                                      <label for="cabosca">AGEPSA/CABOSCA/</label>
+                                    </div>
+                                    <div class="col-6 mb-3 cabosca">
+                                      {{ form.numero_orden_verificacion_cabosca }}
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div class="hideable-cssp-form">
+                              <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-6 mb-3 cabosca">
+                                    <label for="cabosca">CSSCP/</label>
+                                  </div>
+                                  <div class="col-6 mb-3 cabosca">
+                                    {{ form.numero_orden_verificacion_csscp }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Modificar Objetivo -->
+                            <div class="mb-3 mt-5 aviso-secretaria-div">
+                              <label for="modificar_objeto">Desea modificar el objeto? (Seleccione)</label>
+                              {% for value, name in form.fields.modificar_objeto.choices %}
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" id="{{ value }}" name="modificar_objeto" value="{{ value }}" class="custom-control-input">
+                                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+
+                            <div class="hideable-objeto-form">
+                              <div class="mb-3">
+                                  <div class="row">
+                                    <div class="col-12 mb-3 objeto">
+                                      <label for="cabosca">Objeto:</label>
+                                      {{ form.objeto }}
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <!-- Modificar Alcance -->
+                            <div class="mb-3 mt-3 aviso-secretaria-div">
+                              <label for="modificar_alcance">Desea modificar el alcance? (Seleccione)</label>
+                              {% for value, name in form.fields.modificar_alcance.choices %}
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" id="{{ value }}" name="modificar_alcance" value="{{ value }}" class="custom-control-input">
+                                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+
+                            <div class="hideable-alcance-form">
+                              <div class="mb-5">
+                                  <div class="row">
+                                    <div class="col-12 mb-3 alcance">
+                                      <label for="cabosca">Alcance:</label>
+                                      {{ form.alcance }}
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div class="mb-3 mt-5">
+                              <label for="fecha_orden_visita">Considerandos</label>
+                              <p>(escribe mayúsculas y minúsculas y no coloques comas finales)</p>
+                            </div>
+
+                            <div class="hideable-x-form">
+                              <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-6 mb-3 cabosca">
+                                    <label for="cabosca">103 fracción:</label>
+                                  </div>
+                                  <div class="col-6 mb-3 cabosca">
+                                    {{ form.fraccion_103 }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="hideable-x-form">
+                              <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-6 mb-3 cabosca">
+                                    <label for="cabosca">110 fracción:</label>
+                                  </div>
+                                  <div class="col-6 mb-3 cabosca">
+                                    {{ form.fraccion_110 }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="hideable-x-form">
+                              <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-6 mb-3 cabosca">
+                                    <label for="cabosca">5 fracción:</label>
+                                  </div>
+                                  <div class="col-6 mb-3 cabosca">
+                                    {{ form.fraccion_5 }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="hideable-fraccion_16-form">
+                              <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-6 mb-3 cabosca">
+                                    <label for="cabosca">16 fracción:</label>
+                                  </div>
+                                  <div class="col-6 mb-3 cabosca">
+                                    {{ form.fraccion_16 }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="hideable-fraccion_17-form">
+                              <div class="mb-3">
+                                <div class="row">
+                                  <div class="col-6 mb-3 cabosca">
+                                    <label for="cabosca">17 fracción:</label>
+                                  </div>
+                                  <div class="col-6 mb-3 cabosca">
+                                    {{ form.fraccion_17 }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="mb-3 mt-4">
+                              <label for="fecha_orden_visita">Fecha: en que se práctico la visita de verificación</label>
+                              {{ form.fecha_practico_visita }}
+                            </div>
+                            
+                            <div class="mb-3 aviso-secretaria-div">
+                              <label for="secretaria_salud">Cuenta con aviso funcionamiento(Secretaría de Salud)</label>
+                              {% for value, name in form.fields.secretaria_salud.choices %}
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" id="{{ value }}" name="secretaria_salud" value="{{ value }}" class="custom-control-input">
+                                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                </div>
+                              {% endfor %}
+                            </div>
+                            
+                            <div class="hideable-acredito-form">
+                              <div class="mb-3">
+                                <label for="acredito">Acredito contar con aviso de funcionamiento(Secretaría de Salud)</label>
+                                  {% for value, name in form.fields.acredito.choices %}
+                                    <div class="custom-control custom-radio">
+                                      <input type="radio" id="{{ name }}" name="acredito" value="{{ value }}" class="custom-control-input">
+                                      <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                    </div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+
+                            <!-- <div class="mb-3">
+                              <label for="carta_compromiso">Cuenta con carta compromiso?</label>
+                              {# % for value, name in form.fields.carta_compromiso.choices % #}
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" id="{# { name } #}" name="carta_compromiso" value="{# { value } #}" class="custom-control-input">
+                                  <label class="custom-control-label" for="{# { name } #}">{# { name } #}</label>
+                                </div>
+                              {# % endfor % #}
+                            </div> -->
+
+                            <div class="hideable-si-cart-compromiso-form">
+                              <div class="mb-3">
+                                  <div class="row">
+                                    <div class="col-12 mb-3 horario">
+                                      <label for="folio_carta_compromiso">Anote el Folio de la Carta Compromiso</label>
+                                      {{ form.folio_carta_compromiso }}
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                        
+                        <!-- Mostrar SOLO para Cumplimiento Parcial -->
+                        <!-- Start Hideable form si-cart-compromiso-form Section  -->
+                        <div class="hideable-parcial-form">
+                              <div class="mb-3">
+                                <label for="compareciente">Compareciente</label>
+                                {{ form.compareciente }}
+                              </div>
+                              <div class="mb-3">
+                                  <label for="tipo_de_compareciente ">Quien dijo ser:</label>
+                                  {{ form.tipo_de_compareciente  }}
+                              </div>
+                              <div class="mb-3">
+                                  <div class="row">
+                                    <div class="col-12 mb-3 horario">
+                                      <label for="fecha_acude_comparecer">Fecha: en la que comparece</label>
+                                      {{ form.fecha_que_comparece }}
+                                    </div>
+                                  </div>
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="tipo_documento">El documento que presento es?</label>
+                                {% for value, name in form.fields.tipo_documento.choices %}
+                                  <div class="custom-control custom-radio">
+                                    <input type="radio" id="{{ name }}" name="tipo_documento" value="{{ name }}" class="custom-control-input">
+                                    <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                  </div>
+                                {% endfor %}
+                              </div>
+                              <div class="mb-3">
+                                <label for="presentando">Presentando(Seleccione, puede seleccionar mas de 1):</label>
+                                {% for value, name in form.fields.presentando.choices %}
+                                  <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" id="{{ name }}" name="presentando" value="{{ value }}" class="custom-control-input">
+                                    <label class="custom-control-label" for="{{ name }}">{{ value }}</label>
+                                  </div>
+                                {% endfor %}
+                              </div>
+                              <div class="hideable-otro-presentando-form">
+                                  <div class="mb-3">
+                                      <div class="row">
+                                        <div class="col-12 mb-3 horario">
+                                          <label for="folio_carta_compromiso">Anote cual:</label>
+                                          {{ form.presentando_otro }}
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="hideable-notarial-presentando-form">
+                                <div class="mb-3">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label for="folio_carta_compromiso" style="text-align: center;">En caso de instrumento notarial, anotar la siguiente información:</label>
+                                        <div class="row">
+                                          <div class="col-6">
+                                              <label for="fecha">Instrumento Notarial Numero:</label>
+                                              {{ form.instrumento_numero_notarial }}
+                                          </div>
+                                          <div class="col-6 mt-4">
+                                            <label for="fecha">Fecha:</label>
+                                            {{ form.fecha_notarial }}
+                                          </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                          <div class="col-6">
+                                            <label for="fecha">fe del Licenciado:</label>
+                                            {{ form.licenciado_notarial }}
+                                          </div>
+                                          <div class="col-6">
+                                            <label for="fecha">Notario publico Nro:</label>
+                                            {{ form.notario_publico_nro }}
+                                          </div>
+                                        </div>
+                                        <div class="col-mb-6">
+                                          <label for="fecha">Del:</label>
+                                          {{ form.del_notarial }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                              <label for="personalidad">Donde aparecen sus datos como(Seleccione):</label>
+                              {% for value, name in form.fields.aparecen_datos.choices %}
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" id="{{ name }}" name="aparecen_datos" value="{{ name }}" class="custom-control-input">
+                                  <label class="custom-control-label" for="{{ name }}">{{ value }}</label>
+                                </div>
+                              {% endfor %}
+                            </div> 
+                            <div class="hideable-otro-aparecen-form">
+                              <div class="mb-3">
+                                  <div class="row">
+                                    <div class="col-12 mb-3 horario">
+                                      <label for="aparecen_datos_otro">Anote cual:</label>
+                                      {{ form.aparecen_datos_otro }}
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                            
+                              <!-- <div class="mb-3">
+                                <label for="personalidad">Se reconoce la personalidad:</label>
+                                {# % for value, name in form.fields.personalidad.choices % #}
+                                  <div class="custom-control custom-radio">
+                                    <input type="radio" id="{# { name } #}" name="personalidad" value="{# { name } #}" class="custom-control-input">
+                                    <label class="custom-control-label" for="{# { name } #}">{# { name } #}</label>
+                                  </div>
+                                {# % endfor % #}
+                              </div>      -->
+                              
+                              
+                              <div class="mb-3">
+                                <label for="personalidad_como">Se reconoce la personalidad como:</label>
+                                {% for value, name in form.fields.personalidad_como.choices %}
+                                  <div class="custom-control custom-radio">
+                                    <input type="radio" id="{{ name }}" name="personalidad_como" value="{{ value }}" class="custom-control-input">
+                                    <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                  </div>
+                                {% endfor %}
+                              </div>
+                              <div class="hideable-otro-personalidad-form">
+                                <div class="mb-3">
+                                    <div class="row">
+                                      <div class="col-12 mb-3 horario">
+                                        <label for="personalidad_como_otro">Anote cual:</label>
+                                        {{ form.personalidad_como_otro }}
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div class="mb-3 mt-5">
+                                <hr>
+                                <div class="row">
+                                  <div class="col-12 mb-3 horario">
+                                    <label for="domicilio_oir_recibir">Domicilio para oír y recibir notificaciones (seleccione si cuenta con la información o deje en blanco para que no aparezca):
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="form-check">
+                                  <input type="checkbox" name="domicilio_oir" class="form-check-input">
+                                  <label class="form-check-label">Se tiene por señalado como domicilio para oír y recibir notificaciones el ubicado en
+                                  </label>
+                                </div>
+                                <div class="hideable-domicilio-oir-recibir">
+                                  <div class="mb-3">
+                                     {{ form.domicilio_oir_recibir }}
+                                  </div>
+                               </div>
+                                <div class="form-check">
+                                  <input type="checkbox" name="autorizados_oir" class="form-check-input">
+                                  <label class="form-check-label">
+                                    Autorizados para oír y recibir notificaciones (anote nombres completos en caso de contar con ellos)
+                                  </label>
+                                </div>
+                                <div class="hideable-autorizados-oir-recibir">
+                                  <div class="mb-3">
+                                     {{ form.autorizados_oir_recibir }}
+                                  </div>
+                                </div>
+                               <hr>
+                              </div>
+
+
+
+                        </div>
+                        <!-- Mostrar SOLO para Cumplimiento Parcial -->
+                         <!-- End Hideable form si-cart-compromiso-form  Section  -->
+
+                        <!-- Mostrar SOLO para Rebeldia -->
+                        <div class="hideable-rebeldia-form">
+                            <hr class="mb-3 separator">
+                              <div class="mb-3">
+                                <h4>Plazo para comparecer y ofrecer pruebas</h4>
+                                  <div class="row">
+                                    <div class="col-6 mb-3 horario">
+                                      <label for="fecha_desde_acude_comparecer">del</label>
+                                      {{ form.fecha_desde_acude_comparecer }}
+                                    </div>
+                                    <div class="col-6 mb-3 horario">
+                                      <label for="hasta_acude_comparecer">al</label>
+                                      {{ form.fecha_hasta_acude_comparecer }}
+                                    </div>
+                                  </div>
+                              </div>
+                        </div>
+                        <!-- Mostrar SOLO para Rebeldia -->
+            
+                         <!-- End Hideable form si-cart-compromiso-form  Section  -->
+
+                              <div class="mb-3">
+                                  <label for="recibio_visita">Nombre de quien recibio la visita</label>
+                                  {{ form.recibio_visita }}
+                              </div>
+                              <div class="mb-3">
+                                  <label for="puesto ">Puesto de quien recibio la visita</label>
+                                  {{ form.puesto  }}
+                              </div>
+
+                              <div class="mb-3">
+                                <label for="manifestaciones">Manifestaciones de quien recibio la visita:</label>
+                                {% for value, name in form.fields.manifestaciones.choices %}
+                                  <div class="custom-control custom-radio">
+                                    <input type="radio" id="{{ name }}" name="manifestaciones" value="{{ name }}" class="custom-control-input">
+                                    <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                  </div>
+                                {% endfor %}
+                              </div>
+
+                        </div>
+
+                        <div class="card mb-3 card-interno">
+                              <div class="card-header-adicionales">
+                                <h3 class="card-title">Individualización de la sanción</h3>
+                              </div>
+                              <div class="hideable-parcial-total-form">
+                                <div class="mb-3 mt-5">
+                                  <div class="row">
+                                    <div class="form-check">
+                                    <div class="col-12 mb-3">
+                                      <input type="checkbox" name="no_acredito_cumplimiento" class="form-check-input">
+                                      <label for="causa_no_acredito">Colocar porque no acreditó cumplimiento?</label>
+                                      <div class="hideable-causa-no-acredito-form">
+                                        {{ form.causa_no_acredito }}
+                                      </div>
+                                    </div>
+                                    </div>
+                                  </div>
+                                <hr>
+                                </div>
+                              </div>
+
+                              <div class="hideable-total-form">
+                                <div class="mb-3">
+                                  <label for="secretaria_salud">Gravedad de la infraccion(Seleccione):</label>
+                                  {% for value, name in form.fields.grave.choices %}
+                                    <div class="custom-control custom-radio">
+                                      <input type="radio" id="{{ name }}" name="grave" value="{{ value }}" class="custom-control-input">
+                                      <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                    </div>
+                                  {% endfor %}
+                                </div>
+                                <div class="mb-3">
+                                  <label for="reincidente">¿Se considera Reincidente?(Seleccione)</label>
+                                  {% for value, name in form.fields.reincidente.choices %}
+                                    <div class="custom-control custom-radio">
+                                      <input type="radio" id="{{ name }}" name="reincidente" value="{{ value }}" class="custom-control-input">
+                                      <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                    </div>
+                                  {% endfor %}
+                                </div>
+
+                                <div class="mb-3">
+                                  <label for="beneficio_economico">Beneficio economico:</label>
+                                  {% for value, name in form.fields.beneficio_economico.choices %}
+                                    <div class="custom-control custom-radio">
+                                      <input type="radio" id="{{ name }}" name="beneficio_economico" value="{{ name }}" class="custom-control-input">
+                                      <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                    </div>
+                                  {% endfor %}
+                                </div>
+                              
+                                <div class="mb-3">
+                                  <h4>Dias Laborales</h4>
+                                    <div class="row">
+                                      <div class="col-6 mb-3 horario">
+                                        <label for="desde_dia">Desde</label>
+                                        {{ form.desde_dia }}
+                                      </div>
+                                      <div class="col-6 mb-3 horario">
+                                        <label for="hasta_dia">Hasta</label>
+                                        {{ form.hasta_dia }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <h4>Horario</h4>
+                                <div class="card-body">
+                                    <div class="row">
+                                      <div class="col-6 mb-3 horario">
+                                        <label for="desde_horario">Desde</label>
+                                        {{ form.desde_horario }}
+                                      </div>
+                                      <div class="col-6 mb-3 horario">
+                                        <label for="hasta_horario">Hasta</label>
+                                        {{ form.hasta_horario }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numero_empleados">Nro. Empleados</label>
+                                    {{ form.numero_empleados }}
+                                </div>
+                            </div>
+
+
+                            <div class="mb-3">
+                              <label for="aprobador">Nombre del Aprobador</label>
+                              {{ form.aprobador }}
+                          </div>
+                          <div class="mb-3">
+                            <label for="iniciales">Iniciales: Quien realizó</label>
+                            {{ form.iniciales }}
+                          </div>
+
+                          <!-- Notificacion electronica -->
+                          <div class="hideable-notificacion-electronica">
+                            <div class="mb-3">
+                              <label for="notificacion_electronica">Se trata de notificacion electronica?</label>
+                                {% for value, name in form.fields.notificacion_electronica.choices %}
+                                  <div class="custom-control custom-radio">
+                                    <input type="radio" id="{{ value }}" name="notificacion_electronica" value="{{ value }}" class="custom-control-input">
+                                    <label class="custom-control-label" for="{{ value }}">{{ name }}</label>
+                                  </div>
+                                {% endfor %}
+                            </div>
+                            <div class="hideable-correo-electronico">
+                              <div class="mb-3">
+                                <label for="correo_electronico">Agregue el correo electronico del compareciente:</label>
+                                {{ form.correo_electronico }}
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <!-- Form Button -->
+                        
+                        <div class="row" id="hidden-spinner" >
+                          <div class="spinner-border text-dark" role="status"></div>
+                        </div>
+                          
+                        <button type="submit" class="btn btn-success mt-4 btn-lg dataForm"><i class="fa fa-download"></i> Procesar</button>
+                        <!-- Clean Button -->
+                        <button type="button" class="btn btn-primary mt-4 btn-lg cleaner" data-toggle="modal" data-target="#modal-form"><i class="fa fa-undo"></i> Limpiar</button> 
+                        
+
+                        <!-- </form>     -->
+                  <!-- End Form -->
+                  <!-- <div class="col-12 formButton">
+                    
+                    
+                  </div> -->
+                </div> <!-- End Card -->
+                 
+              </div>
+
+     
+          </div>
+            <div class="col-md-6 mb-5 mb-md-0">							
+                <!-- Card -->
+                <div class="card">
+                    {# { select_list.as_p } #}
+                  <div class="card-header lista-cotejo">
+                    <h3 class="card-title">Lista de Cotejo</h3>
+                    <p class="list-cotejo-name">{{ lista_cotejo_object.name }} - {{ version_name }}</p>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body p-0">
+                      <!-- <form id="checklistForm" action=""> -->
+                        <table id="listaCotejo" class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th style="width: 10px">#</th>
+                              <th>Pregunta</th>
+                              <th>Cumple</th>
+                              <th style="width: 40px">No Cumple</th>
+                              <th>N/A</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% include 'lista/lista_cotejo.html' %}
+                          </tbody>
+                        </table>
+                    </form><!-- End Form -->
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- Form -->
+
+                
+            </div> <!-- End Card -->
+            
+            </div>
+        </div>
+      </div>
+  </section>
+
+  <footer class="form-footer">
+    <div class="divider">
+       <hr>
+    </div>
+    <div class="copy">
+       <strong>Copyright © 2021 - </strong><a href="mailto:mariamagdalena.bernalcaro@gmail.com"> Maria Magdalena Bernal Caro</a>
+    </div>
+    <p>Prohibido el uso sin autorización.</p>
+ </footer>
+
+
+{% endblock content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+  var hideable_rebeldia = $('.hideable-rebeldia-form');
+  var hideable_parcial = $('.hideable-parcial-form')
+  var hideable_total = $('.hideable-total-form')
+
+  var hideable_carta_compromiso = $('.hideable-si-cart-compromiso-form')
+  var hideable_otro_presentando = $('.hideable-otro-presentando-form')
+  var hideable_notarial_presentando = $('.hideable-notarial-presentando-form')
+  var hideable_otro_personalidad = $('.hideable-otro-personalidad-form')
+  var hideable_otro_aparecen = $('.hideable-otro-aparecen-form')
+  var list_cotejo_name = $('.list-cotejo-name');
+
+  var hideable_cabosca_form = $('.hideable-cabosca-form')
+  var hideable_cssp_form = $('.hideable-cssp-form')
+
+  var hideable_objeto_form = $('.hideable-objeto-form')
+  var hideable_alcance_form = $('.hideable-alcance-form')
+
+  var hideable_domicilio_oir_recibir = $('.hideable-domicilio-oir-recibir')
+  var hideable_autorizados_oir_recibir = $('.hideable-autorizados-oir-recibir')
+
+  var hideable_fraccion_16_form = $('.hideable-fraccion_16-form')
+  var hideable_fraccion_17_form = $('.hideable-fraccion_17-form')
+  var hideable_acredito = $('.hideable-acredito-form')
+
+  var hideable_notificacion_electronica = $('.hideable-notificacion-electronica')
+  var hideable_correo_electronico = $('.hideable-correo-electronico')
+  var hideable_causa_no_acredito = $(".hideable-causa-no-acredito-form")
+  var hideable_parcial_total = $(".hideable-parcial-total-form")
+  $('#hidden-spinner').hide();
+
+  hideable_domicilio_oir_recibir.hide();
+  hideable_autorizados_oir_recibir.hide();
+
+  hideable_rebeldia.hide();
+  hideable_parcial.hide();
+  hideable_total.hide();
+
+  hideable_carta_compromiso.hide();
+  
+  hideable_notarial_presentando.hide();
+  hideable_otro_presentando.hide();
+  hideable_otro_personalidad.hide();
+  hideable_otro_aparecen.hide();
+
+  hideable_cabosca_form.hide()
+  hideable_cssp_form.hide()
+
+  hideable_objeto_form.hide()
+  hideable_alcance_form.hide()
+
+  hideable_fraccion_16_form.hide()
+  hideable_fraccion_17_form .hide()
+
+  hideable_acredito.hide()
+
+  hideable_notificacion_electronica.hide()
+  hideable_correo_electronico.hide()
+  hideable_causa_no_acredito.hide()
+
+  var version = "{{ version }}"
+  var list_pk = "{{ list_content.id }}"
+
+
+    $("#PlantillaSelect").change(function(){
+      var value = $('#PlantillaSelect option:selected').text()
+    if (value === 'Rebeldia') {
+      hideable_rebeldia.show("slow");
+      hideable_parcial.hide("slow");
+      hideable_total.show();
+      hideable_acredito.hide("slow");
+      hideable_parcial_total.hide("slow")
+    } else if (value === 'Cumplimiento Parcial'){
+      hideable_rebeldia.hide("slow");
+      hideable_parcial.show("slow");
+      hideable_total.show();
+      hideable_notificacion_electronica.show("slow")
+      hideable_parcial_total.show("slow")
+      // hideable_acredito.show("slow")
+    } else if (value === 'Cumplimiento Total'){
+      hideable_rebeldia.hide("slow");
+      hideable_parcial.show("slow");
+      hideable_notificacion_electronica.show("slow")
+      hideable_parcial_total.hide("slow")
+      // hideable_acredito.show("slow")
+      hideable_total.hide();
+    }
+  });
+
+
+  $("input[name=carta_compromiso]").change(function(){
+    var value = $(this).val();
+    if (value === 'Si Cuenta') {
+      hideable_carta_compromiso.show('slow');
+    } else {
+      hideable_carta_compromiso.hide('slow');
+    }
+  });
+
+  // Muestra o oculta el campo otro_tipo_negocio
+  $("#Otro[name=presentando]").change(function(){
+      if(this.checked){
+        hideable_otro_presentando.show("slow");
+    } else {
+      hideable_otro_presentando.hide("slow");
+    }
+  });
+
+  $("input[name=personalidad_como]").change(function(){
+    var value = $(this).val();
+    if (value === 'Otros') {
+      hideable_otro_personalidad.show('slow');
+    } else {
+      hideable_otro_personalidad.hide('slow');
+    }
+  });
+
+  $("input[name=aparecen_datos]").change(function(){
+    var value = $(this).val();
+    if (value === 'Otros Datos') {
+      hideable_otro_aparecen.show('slow');
+    } else {
+      hideable_otro_aparecen.hide('slow');
+    }
+  });
+
+  $("input[name=domicilio_oir]").change(function(){
+    if(this.checked){
+      hideable_domicilio_oir_recibir.show("slow");
+    } else {
+      hideable_domicilio_oir_recibir.hide("slow");
+    }
+  });
+
+  $("input[name=autorizados_oir]").change(function(){
+    if(this.checked){
+      hideable_autorizados_oir_recibir.show("slow");
+    } else {
+      hideable_autorizados_oir_recibir.hide("slow");
+    }
+  });
+
+    $("input[name=no_acredito_cumplimiento]").change(function(){
+    if(this.checked){
+      hideable_causa_no_acredito.show("slow");
+    } else {
+      hideable_causa_no_acredito.hide("slow");
+    }
+
+  });
+
+  $("#Instrumento_Notarial[name=presentando]").change(function(){
+    if(this.checked){
+      hideable_notarial_presentando.show("slow");
+    } else {
+      hideable_notarial_presentando.hide("slow");
+    }
+  });
+
+  $('.cleaner').click(function(){
+        $('#resolutionForm').trigger("reset");
+    });
+
+    
+
+    // Aviso Secretaria
+    $("input[name=secretaria_salud]").change(function(){
+      var tipo_acta = $('#PlantillaSelect option:selected').text()
+
+      var value = $(this).val();
+      // console.log(value);
+      // console.log(tipo_acta);
+
+      if (value == 'No' && (tipo_acta !== 'Rebeldia')) {
+        hideable_acredito.show('slow');
+
+      } else {
+        hideable_acredito.hide('slow');
+      }
+  });
+
+
+  var selected = $( ".aviso-secretaria-div div:nth-child(4)" );
+
+  if (list_cotejo_name.text() !== 'Covid-19') {
+      selected.hide();
+  } 
+
+
+  // Tipo de Orden
+  $("input[name=tipo_orden]").change(function(){
+    var value = $(this).val();
+    // console.log(value);
+
+    if (value == 'AGEPSA/CABOSCA/') {
+      hideable_cabosca_form.show('slow');
+      hideable_fraccion_16_form.show('slow');
+      hideable_fraccion_17_form.hide('slow');
+      hideable_cssp_form.hide('slow');
+    } else {
+      hideable_cabosca_form.hide('slow');
+      hideable_cssp_form.show('slow');
+      hideable_fraccion_17_form.show('slow');
+      hideable_fraccion_16_form.hide('slow');
+    }
+  });
+
+  // Modificar Objeto | Alcance
+  $("input[name=modificar_objeto]").change(function(){
+    var value = $(this).val();
+    // console.log(value);
+    if (value == 'Modificar objeto') {
+      hideable_objeto_form.show('slow');
+
+    } else {
+      hideable_objeto_form.hide('slow');
+    }
+  });
+
+  $("input[name=modificar_alcance]").change(function(){
+    var value = $(this).val();
+    // console.log(value);
+    if (value == 'Modificar alcance') {
+      hideable_alcance_form.show('slow');
+    } else {
+      hideable_alcance_form.hide('slow');
+    }
+  });
+
+
+  // Notificacion electronica
+  $("input[name=notificacion_electronica]").change(function(){
+      var value = $(this).val();
+      var tipo_acta = $('#PlantillaSelect option:selected').text()
+
+      if (value == 'si_notificacion_electronica' && tipo_acta != 'Rebeldia') {
+        hideable_correo_electronico.show('slow');
+      } else {
+        hideable_correo_electronico.hide('slow');
+      }
+  });
+
+  function fire_error(status){
+      if (status == 400) {
+        Swal.fire({
+            title: 'Error!',
+            html: "Ha ocurrido un error al comunicarse con el bucket.",
+            icon: 'error'
+        });
+      } else if (status == 404 ){
+        Swal.fire({
+            title: 'Error!',
+            html: "No se ha encontrado la ruta del documento. Compruebe que la plantilla base esté alojada en el bucket(S3).",
+            icon: 'error'
+        });
+      } else if (status == 500 ){
+        Swal.fire({
+            title: 'Error!',
+            html: "No se ha procesado la informacion de forma correcta.",
+            icon: 'error'
+        });
+      }
+
+  }
+
+
+  $(document).ready(function(){
+    $("#resolutionForm").submit(function(e){
+      e.preventDefault()
+      $('#hidden-spinner').show();
+      $(".dataForm").hide()
+      $(".cleaner").hide()
+
+      var doc_name =  $("input[name=nombre_establecimiento]").val();
+      var parameters = $("#resolutionForm").serializeArray();
+      
+      $.ajax({
+          url: window.location.href,
+          type: 'POST',
+          data: JSON.stringify({
+            'parameters': parameters,
+          }),
+          xhrFields:{
+            responseType: 'blob',
+          },
+          processData: false,  
+          contentType: false,  
+          success: function(responseData, textStatus, xhr) {
+            $('#hidden-spinner').hide();
+            $(".dataForm").show()
+            $(".cleaner").show()
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(responseData);
+            link.download = ""+doc_name+".docx";
+            link.click();
+          },
+          error: function (responseData) {
+            var responseStatus = responseData.status;
+            fire_error(responseStatus)
+            $('#hidden-spinner').hide();
+            $(".dataForm").show()
+            $(".cleaner").show()
+
+          }
+      });
+      return false
+
+    })
+  })
+
+
+  
+
+</script>
+{% endblock extra_javascript %}

@@ -1,0 +1,211 @@
+nav {
+    box-shadow: 2px 2px 9px rgb(45 45 45 / 72%);
+}
+
+
+label {
+    font-weight: bold;
+}
+
+h3 {
+    text-align: center;
+}
+h4 {
+    text-align: center;
+}
+
+
+/*--- Lista  Cotejo ---*/
+#loginBox {
+    font-size: 2.1rem;
+    font-weight: 300;
+    /* margin-bottom: .9rem; */
+    text-align: center;
+}
+
+#logo-image {
+    /* float: left;
+    line-height: .8;
+    margin-left: .8rem;
+    margin-right: .5rem;
+    margin-top: -3px;
+    max-height: 33px; */
+    width: 10%;
+}
+
+
+.breadcrumb {
+    margin-bottom: 3rem;
+}
+.card-interno {
+    padding: 1.2rem;
+}
+.card-form {
+    box-shadow: 2px 2px 9px rgb(45 45 45 / 72%);
+}
+.card-body .horario {
+    text-align: center;
+}
+.card-header {
+    background-color: #007bff;
+}
+.card-title {
+    color: white;
+}
+.card-header-report {
+    background-color: #28a745;
+    padding: .75rem 1.25rem;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    margin-bottom: 1.3rem;
+    border-radius: .25rem;
+}
+.card-header-resolucion {
+    background-color: #ffc107;
+    padding: .75rem 1.25rem;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    margin-bottom: 1.3rem;
+    border-radius: .25rem;
+}
+.card-header-adicionales {
+    background-color: #17a2b8;
+    padding: .75rem 1.25rem;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    margin-bottom: 1.3rem;
+    border-radius: .25rem;
+}
+.formButton {
+    text-align: center;
+}
+
+.compareciente-checkbox {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.lista-cotejo p {
+    text-align: center;
+    color: white;
+    font-size: 13px;
+}
+
+#hidden-spinner {
+    justify-content: center;
+    /* display: none; */
+}
+
+/*--- End Lista Cotejo ---*/
+
+
+
+/*---- Index ---*/
+.index-row {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+.list-index a {
+    margin-bottom: 1.3rem;
+    margin-left: 1.5rem;
+}
+.index-list-link {
+    border-radius: .3rem !important;
+}
+.bg img{
+    z-index: -1;
+    position: fixed;
+    width: 600px;
+    height: 1000px;
+    right: 0;
+    top: 0;
+}
+.separator {
+    margin-bottom: 3rem !important;
+}
+.considerando p{
+    font-size: 14px !important;
+}
+.considerando-label {
+    text-align: center;
+}
+.considerando .fracciones-field {
+    width: 150px !important;
+    height: 26px !important;
+}
+
+footer a {
+    font-weight: bold;
+    color: #17a2b8;
+    margin-left: 6px;
+}
+.divider {
+    display: inline-flex;
+}
+.divider hr{
+    width: 41rem;
+    float: left;
+}
+
+.main-footer {
+    margin-top: 5rem;
+    margin-left: 2.1rem;
+}
+.main-footer .copy {
+    display: flex;
+}
+
+.main-footer p {
+    font-size: small;
+    color: rgb(133, 133, 133);
+}
+
+.form-footer {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.form-footer p {
+    font-size: small;
+    color: rgb(133, 133, 133);
+}
+/*--- End Index ---*/
+
+
+/*---  Start Login Page ---*/
+
+
+
+.login-page {
+    background-image: url("/static/img/login_page.jpg") 50% 0 no-repeat fixed;
+}
+/*--- End Login Page ---*/
+
+
+
+/*----- Error Pages ------*/
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: .3rem;
+    background-color: #5a5a5a !important;
+
+}
+
+/*----- End Footer ----*/
+
+/* // Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+    .table td, .table th {
+        padding: 0 ;
+    }
+ }
+
+ /* // Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) { 
+    .table td, .table th {
+        padding: 0 ;
+    }
+}

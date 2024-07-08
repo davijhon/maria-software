@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+   <div class="row index-row">
+      <div class="col-md-6">
+         <h1>Listas de Cotejo</h1>
+         <hr>
+         <p>Seleccione la que se adapte a su actividad</p>
+         {% for lista in listas_cotejos %}
+            <div class="list-group">
+               <div class="row list-index">
+                  <a style="cursor: pointer;" class="list-group-item list-group-item-action list-group-item-primary index-list-link modal-list">{{ lista.name }}</a>
+               </div>
+            </div>
+         {% endfor %}
+      </div>
+      <div class="col-md-6">
+         <div class="bg"><img src="{% static 'img/angel_index.jpg' %}" alt=""></div>
+      </div>  
+   </div>
+</div>
+
+{% include "footer.html" %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Versiones</h5>
+
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       
+       <div class="modal-body">
+         <ul class="list-group versiones-list">
+
+          </ul>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+       </div>
+     </div>
+   </div>
+ </div>
+
+{% endblock content %}
+
+{% block extra_javascript %}
+<script>
+   function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+
+  var csrftoken = getCookie("csrftoken");
+
+   $(document).ready(function(){
+      $(".modal-list").click(function(e){
+         var list_name = $(this).text();
+
+         $("#exampleModal").modal('show')
+
+         $.ajax({
+            url: "{% url 'search_versiones' %}",
+            type: "POST",
+            headers: {
+                  "Content-type": "application/json",
+                  "X-CSRFToken": csrftoken,
+            },
+            dataType: "json",
+            data : JSON.stringify({
+               'list_name': list_name
+            }),
+            success: function(response) {
+               var div_list = $(".versiones-list");
+               div_list.html("")
+               make_list_elements(response)
+
+            }
+         })
+
+      });
+   })
+   // Create an `a` HTML element
+   function make_a_element() {
+      var a = document.createElement("a")
+      a.classList.add("list-group-item", "list-group-item-action", "list-group-item-primary", "index-list-link", "mb-3")
+      return a
+   }
+
+   function make_list_elements(data){
+      data.forEach(function(element){
+         var div_list = $(".versiones-list");
+         var a_element = make_a_element()
+         var path = window.location.href
+
+         var text = document.createTextNode(element.comentario);
+         
+         path += "resolution/"+element.slug+"/"+element.id_lista_cotejo+"/"
+
+         a_element.href = path
+         a_element.innerHTML = element.nombre_version
+         var br = document.createElement("br");
+         a_element.appendChild(br);
+
+         a_element.appendChild(text)
+         
+         div_list.append(a_element);
+
+      });
+   }
+
+</script>
+{% endblock extra_javascript %}

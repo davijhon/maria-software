@@ -1,0 +1,9 @@
+{% for content in list_content %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td class="text-center"><p>{{ content.punto_acta }}</p></td>
+    <td><input type="radio" name="{{ content.id }}" value="{{ content.cumple }}"></td>
+    <td><input type="radio" name="{{ content.id }}"  value="{{ content.no_cumple }}"></td>
+    <td><input type="radio" name="{{ content.id }}"  value="{{ content.n_a }}"></td>
+</tr>
+{% endfor %}
